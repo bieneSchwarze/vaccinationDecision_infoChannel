@@ -1,17 +1,5 @@
 fitModel <- function(imp, eq, D_cc, we=TRUE){
-  
-  # prestuff
-  # -----------------------------------------------------------------
-  m_cc <- glm(formula=eq, family=binomial(link="logit"), data=D_cc)
-  #summary(m_cc)
-  #m_cc_cl <- coeftest(m_cc, vcov. = vcovCL(m_cc, cluster = D_cc$idh, type = "HC0"))
-  #dfobj <- svydesign(id = ~id, weights = ~phrf_full, data = D_cc)
-  #m_ww_cc <- svyglm(formula=eq,design=dfobj,family = quasibinomial)
-  #summary(m_ww_cc)
-  #m_cc_ww_cl <- coeftest(m_ww_cc, vcov. = vcovCL(m_ww_cc, cluster = D_cc$idh, type = "HC0"))
-  #stargazer(m_cc_cl, m_cc_ww_cl, type="text")
-  # -----------------------------------------------------------------
-  
+
   # Do this looping over all imputed data sets, then pool
   modList <- vector(length=imp$m, mode="list") 
   nbetas <- nrow(summary(m_cc)$coef)
@@ -22,7 +10,7 @@ fitModel <- function(imp, eq, D_cc, we=TRUE){
     #i <- 1
     D_i <- complete(imp, action=i)
     if(we){
-      dfobj <- svydesign(id = ~id, weights = ~phrf_full, data = D_i)
+      dfobj <- svydesign(id = ~id, weights = ~wTN, data = D_i)
     } else {
       dfobj <- svydesign(id = ~id, weights = ~1, data = D_i)
     }
