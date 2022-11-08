@@ -1,4 +1,4 @@
-# Impact on Information Channels on the CoV-2 Vaccination Decision (part of the Study SOEP-RKI-2)
+# Impact of Information Channels on the CoV-2 Vaccination Decision (part of the Study SOEP-RKI-2)
 ## Data Preparation and Analysis 
 for a joint project between SZinn and Susanne Jordan & Sarah Jane Böttger (RKI)
 
