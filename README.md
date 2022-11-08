@@ -1,5 +1,5 @@
-# vaccinationDecision_infoChannel
-Data Preparation and Analysis for Impact on Info Channel on Vaccination Decision for CoV-2 (part of Study SOEP-RKI-2)
+# Impact on Information Channels on the CoV-2 Vaccination Decision (part of the Study SOEP-RKI-2)
+## Data Preparation and Analysis 
 for a joint project between SZinn and Susanne Jordan & Sarah Jane Böttger (RKI)
 
 For our analysis we use data from the German RKI-SOEP-2 Project ``Corona-Monitoring bundesweit" (CoMoBu-Studie)'', see https://www.rki.de/DE/Content/Gesundheitsmonitoring/Studien/lid/lid_node.html
