@@ -20,7 +20,6 @@ library(survey)
 library(sandwich)
 library(lmtest)
 library(car)
-library(stargazer)
 library(ggplot2)
 
 # ------------------------------------------------------------------------------
@@ -214,8 +213,8 @@ D_cc <- complete(imp, action=1)
 
 # 1. Info Fam
 eq <- as.formula(ImpEntNeg_v2 ~ infoFam + eduLow + eduMed + sexFem + as.factor(agegrp17C) + 
-                   + recode(sjHealth, "c(1, 2, 3) = 'good'; c(4, 5) = 'poor' ; else = NA")
-                   + recode(sjInf, "c(1, 2, 3) = 'good'; c(4, 5) = 'poor' ; else = NA") 
+                   + recode(sjHealth, "c(1, 2) = 'good'; c(3, 4, 5) = 'poor' ; else = NA")
+                   + recode(sjInf, "c(1, 2) = 'good'; c(3, 4, 5) = 'poor' ; else = NA") 
                    + recode(sjWorr, "c(1, 2, 3) = 'no'; c(4, 5) = 'yes' ; else = NA")                  
                    + as.factor(datj_n2))
 res1_ww <- fitModel(imp, eq, D_cc, we=TRUE)
@@ -223,8 +222,8 @@ res1 <- fitModel(imp, eq, D_cc, we=FALSE)
 
 # 2. Info Doc
 eq <- as.formula(ImpEntNeg_v2 ~ infoDoc + eduLow + eduMed + sexFem + as.factor(agegrp17C) + 
-                   + recode(sjHealth, "c(1, 2, 3) = 'good'; c(4, 5) = 'poor' ; else = NA")
-                 + recode(sjInf, "c(1, 2, 3) = 'good'; c(4, 5) = 'poor' ; else = NA") 
+                 + recode(sjHealth, "c(1, 2) = 'good'; c(3, 4, 5) = 'poor' ; else = NA")
+                 + recode(sjInf, "c(1, 2) = 'good'; c(3, 4, 5) = 'poor' ; else = NA") 
                  + recode(sjWorr, "c(1, 2, 3) = 'no'; c(4, 5) = 'yes' ; else = NA")                  
                  + as.factor(datj_n2))
 res2_ww <- fitModel(imp, eq, D_cc, we=TRUE)
@@ -232,8 +231,8 @@ res2 <- fitModel(imp, eq, D_cc, we=FALSE)
 
 # 3. Info Apo
 eq <- as.formula(ImpEntNeg_v2 ~ infoApo + eduLow + eduMed + sexFem + as.factor(agegrp17C) + 
-                   + recode(sjHealth, "c(1, 2, 3) = 'good'; c(4, 5) = 'poor' ; else = NA")
-                 + recode(sjInf, "c(1, 2, 3) = 'good'; c(4, 5) = 'poor' ; else = NA") 
+                 + recode(sjHealth, "c(1, 2) = 'good'; c(3, 4, 5) = 'poor' ; else = NA")
+                 + recode(sjInf, "c(1, 2) = 'good'; c(3, 4, 5) = 'poor' ; else = NA") 
                  + recode(sjWorr, "c(1, 2, 3) = 'no'; c(4, 5) = 'yes' ; else = NA")                  
                  + as.factor(datj_n2))
 res3_ww <- fitModel(imp, eq, D_cc, we=TRUE)
@@ -241,8 +240,8 @@ res3 <- fitModel(imp, eq, D_cc, we=FALSE)
 
 # 4. Info infoOef
 eq <- as.formula(ImpEntNeg_v2 ~ infoOef + eduLow + eduMed + sexFem + as.factor(agegrp17C) + 
-                   + recode(sjHealth, "c(1, 2, 3) = 'good'; c(4, 5) = 'poor' ; else = NA")
-                 + recode(sjInf, "c(1, 2, 3) = 'good'; c(4, 5) = 'poor' ; else = NA") 
+                 + recode(sjHealth, "c(1, 2) = 'good'; c(3, 4, 5) = 'poor' ; else = NA")
+                 + recode(sjInf, "c(1, 2) = 'good'; c(3, 4, 5) = 'poor' ; else = NA") 
                  + recode(sjWorr, "c(1, 2, 3) = 'no'; c(4, 5) = 'yes' ; else = NA")                  
                  + as.factor(datj_n2))
 res4_ww <- fitModel(imp, eq, D_cc, we=TRUE)
@@ -250,8 +249,8 @@ res4 <- fitModel(imp, eq, D_cc, we=FALSE)
 
 # 5. Info infoNews
 eq <- as.formula(ImpEntNeg_v2 ~ infoNews + eduLow + eduMed + sexFem + as.factor(agegrp17C) + 
-                   + recode(sjHealth, "c(1, 2, 3) = 'good'; c(4, 5) = 'poor' ; else = NA")
-                 + recode(sjInf, "c(1, 2, 3) = 'good'; c(4, 5) = 'poor' ; else = NA") 
+                 + recode(sjHealth, "c(1, 2) = 'good'; c(3, 4, 5) = 'poor' ; else = NA")
+                 + recode(sjInf, "c(1, 2) = 'good'; c(3, 4, 5) = 'poor' ; else = NA") 
                  + recode(sjWorr, "c(1, 2, 3) = 'no'; c(4, 5) = 'yes' ; else = NA")                  
                  + as.factor(datj_n2))
 res5_ww <- fitModel(imp, eq, D_cc, we=TRUE)
@@ -259,8 +258,8 @@ res5 <- fitModel(imp, eq, D_cc, we=FALSE)
 
 # 6. Info infoSozM
 eq <- as.formula(ImpEntNeg_v2 ~ infoSozM + eduLow + eduMed + sexFem + as.factor(agegrp17C) + 
-                   + recode(sjHealth, "c(1, 2, 3) = 'good'; c(4, 5) = 'poor' ; else = NA")
-                 + recode(sjInf, "c(1, 2, 3) = 'good'; c(4, 5) = 'poor' ; else = NA") 
+                 + recode(sjHealth, "c(1, 2) = 'good'; c(3, 4, 5) = 'poor' ; else = NA")
+                 + recode(sjInf, "c(1, 2) = 'good'; c(3, 4, 5) = 'poor' ; else = NA") 
                  + recode(sjWorr, "c(1, 2, 3) = 'no'; c(4, 5) = 'yes' ; else = NA")                  
                  + as.factor(datj_n2))
 res6_ww <- fitModel(imp, eq, D_cc, we=TRUE)
@@ -268,8 +267,8 @@ res6 <- fitModel(imp, eq, D_cc, we=FALSE)
 
 # 7. Info infoAdm
 eq <- as.formula(ImpEntNeg_v2 ~ infoAdm + eduLow + eduMed + sexFem + as.factor(agegrp17C) + 
-                   + recode(sjHealth, "c(1, 2, 3) = 'good'; c(4, 5) = 'poor' ; else = NA")
-                 + recode(sjInf, "c(1, 2, 3) = 'good'; c(4, 5) = 'poor' ; else = NA") 
+                 + recode(sjHealth, "c(1, 2) = 'good'; c(3, 4, 5) = 'poor' ; else = NA")
+                 + recode(sjInf, "c(1, 2) = 'good'; c(3, 4, 5) = 'poor' ; else = NA") 
                  + recode(sjWorr, "c(1, 2, 3) = 'no'; c(4, 5) = 'yes' ; else = NA")                  
                  + as.factor(datj_n2))
 res7_ww <- fitModel(imp, eq, D_cc, we=TRUE)
@@ -277,8 +276,8 @@ res7 <- fitModel(imp, eq, D_cc, we=FALSE)
 
 # 8. Info infoKK
 eq <- as.formula(ImpEntNeg_v2 ~ infoKK + eduLow + eduMed + sexFem + as.factor(agegrp17C) + 
-                   + recode(sjHealth, "c(1, 2, 3) = 'good'; c(4, 5) = 'poor' ; else = NA")
-                 + recode(sjInf, "c(1, 2, 3) = 'good'; c(4, 5) = 'poor' ; else = NA") 
+                 + recode(sjHealth, "c(1, 2) = 'good'; c(3, 4, 5) = 'poor' ; else = NA")
+                 + recode(sjInf, "c(1, 2) = 'good'; c(3, 4, 5) = 'poor' ; else = NA") 
                  + recode(sjWorr, "c(1, 2, 3) = 'no'; c(4, 5) = 'yes' ; else = NA")                  
                  + as.factor(datj_n2))
 res8_ww <- fitModel(imp, eq, D_cc, we=TRUE)
@@ -286,8 +285,8 @@ res8 <- fitModel(imp, eq, D_cc, we=FALSE)
 
 # 9. Info infoGP
 eq <- as.formula(ImpEntNeg_v2 ~ infoGP + eduLow + eduMed + sexFem + as.factor(agegrp17C) + 
-                   + recode(sjHealth, "c(1, 2, 3) = 'good'; c(4, 5) = 'poor' ; else = NA")
-                 + recode(sjInf, "c(1, 2, 3) = 'good'; c(4, 5) = 'poor' ; else = NA") 
+                 + recode(sjHealth, "c(1, 2) = 'good'; c(3, 4, 5) = 'poor' ; else = NA")
+                 + recode(sjInf, "c(1, 2) = 'good'; c(3, 4, 5) = 'poor' ; else = NA") 
                  + recode(sjWorr, "c(1, 2, 3) = 'no'; c(4, 5) = 'yes' ; else = NA")                  
                  + as.factor(datj_n2))
 res9_ww <- fitModel(imp, eq, D_cc, we=TRUE)

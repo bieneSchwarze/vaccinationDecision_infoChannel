@@ -1,6 +1,7 @@
 fitModel <- function(imp, eq, D_cc, we=TRUE){
 
   # Do this looping over all imputed data sets, then pool
+  m_cc <- glm(formula=eq, family=binomial(link="logit"), data=D_cc)
   modList <- vector(length=imp$m, mode="list") 
   nbetas <- nrow(summary(m_cc)$coef)
   matrBeta <- matrix(NA, ncol=imp$m, nrow=nbetas)
