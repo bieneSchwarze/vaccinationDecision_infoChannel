@@ -6,7 +6,7 @@
 ##
 ## Sep. 2022
 ## SZinn
-## joint work with Susanne Jordan & Sarah Jane Böttger (RKI)
+## joint work with Susanne Jordan & Sarah Jane B?ttger (RKI)
 ##
 ################################################################################
 ################################################################################
@@ -28,7 +28,7 @@ library(ggplot2)
 # ------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
 
-setwd("C:\\Users\\Freddie\\Documents\\RKI-Studie\\Welle_2\\DATA\\CoMobu2_v4_21Okt2022\\v4_21Okt2022")
+setwd("D:\\RKI_2\\CoMobu2_v4_21Okt2022\\v4_21Okt2022")
 DAT <- read_dta("CoMobu2_v4.dta")
 
 # Ab 18J
@@ -57,7 +57,7 @@ DAT <- DAT[order(DAT$id, DAT$idh),]
 # Wichtigkeit Informationsquelle 
 table(DAT$prki2iueb01, exclude=NULL) # Familie / Freunde
 DAT$infoFam <- ifelse(DAT$prki2iueb01 %in% -4, NA, DAT$prki2iueb01)
-table(DAT$prki2iueb02, exclude=NULL) # Ärzte
+table(DAT$prki2iueb02, exclude=NULL) # ?rzte
 DAT$infoDoc <- ifelse(DAT$prki2iueb02 %in% -4, NA, DAT$prki2iueb02)
 table(DAT$prki2iueb03, exclude=NULL) # Apotheke
 DAT$infoApo <- ifelse(DAT$prki2iueb03 %in% -4, NA, DAT$prki2iueb03)
@@ -74,7 +74,7 @@ DAT$infoKK <- ifelse(DAT$prki2iueb09 %in% -4, NA, DAT$prki2iueb09)
 table(DAT$prki2iueb10, exclude=NULL) # Gesundheitsportale
 DAT$infoGP <- ifelse(DAT$prki2iueb10 %in% -4, NA, DAT$prki2iueb10)
 
-# # Nehme Datenzeilen heraus, für die keine Info bzgl. Infokanal
+# # Nehme Datenzeilen heraus, f?r die keine Info bzgl. Infokanal
 # condInfoNA <- !is.na(DAT$infoFam) | !is.na(DAT$infoDoc) | !is.na(DAT$infoApo) | !is.na(DAT$infoOef) |
 #  !is.na(DAT$infoNews) | !is.na(DAT$infoSozM) | !is.na(DAT$infoAdm) |
 #  !is.na(DAT$infoKK) | !is.na(DAT$infoGP)
@@ -150,7 +150,7 @@ DAT$sjWorr <- ifelse(is.na(DAT$prki2krsor) | DAT$prki2krsor %in% c(-4), NA, DAT$
 table(DAT$sjWorr, exclude=NULL)
 
 # Time Dummy
-table(DAT$datj_n2, exclude=NULL)
+table(DAT$datj_n, exclude=NULL)
 
 # How many people in HHs
 XX <- aggregate(DAT$id, by=list(DAT$idh),FUN=length); table(XX$x) 
@@ -167,7 +167,7 @@ nam <- c("id", "idh", "wTN",
          "infoSozM", "infoAdm", "infoKK", "infoGP",
          "edu", "sexFem", "agegrp17C", 
          "sjHealth", "sjInf", "sjWorr",  
-         "datj_n2")
+         "datj_n")
 nam[!nam %in% colnames(DAT)]
 D <- DAT[,nam]
 
@@ -204,7 +204,7 @@ imp <- mice(D.imp, predictorMatrix = pred, m=30, seed=2388)
 # - logit model, weighted, cluster robust std err, imputed 
 # ------------------------------------------------------------------------------
 # for each channel, weigthed and unweighted, logit
-setwd("C:\\Users\\Freddie\\Documents\\RKI-Studie\\Welle_2\\Syntax")
+setwd("D:\\RKI_2\\Syntax")
 source("models.R")
 D_cc <- complete(imp, action=1)
 
@@ -212,7 +212,8 @@ D_cc <- complete(imp, action=1)
 # Uses: Survey-weighted generalised linear models -> okay
 
 # 1. Info Fam
-eq <- as.formula(ImpEntNeg_v2 ~ infoFam + eduLow + eduMed + sexFem + as.factor(agegrp17C) + 
+eq <- as.formula(ImpEntNeg_v2 ~ as.factor(recode(infoFam, "c(4, 5) = '1'; c(3) = '2'; c(1,2) = '0' ; else = NA"))
+                   + eduLow + eduMed + sexFem + as.factor(agegrp17C) + 
                    + recode(sjHealth, "c(1, 2) = 'good'; c(3, 4, 5) = 'poor' ; else = NA")
                    + recode(sjInf, "c(1, 2) = 'good'; c(3, 4, 5) = 'poor' ; else = NA") 
                    + recode(sjWorr, "c(1, 2, 3) = 'no'; c(4, 5) = 'yes' ; else = NA")                  
@@ -221,7 +222,8 @@ res1_ww <- fitModel(imp, eq, D_cc, we=TRUE)
 res1 <- fitModel(imp, eq, D_cc, we=FALSE)
 
 # 2. Info Doc
-eq <- as.formula(ImpEntNeg_v2 ~ infoDoc + eduLow + eduMed + sexFem + as.factor(agegrp17C) + 
+eq <- as.formula(ImpEntNeg_v2 ~ as.factor(recode(infoDoc, "c(4, 5) = '1'; c(3) = '2'; c(1,2) = '0' ; else = NA"))
+                 + eduLow + eduMed + sexFem + as.factor(agegrp17C) + 
                  + recode(sjHealth, "c(1, 2) = 'good'; c(3, 4, 5) = 'poor' ; else = NA")
                  + recode(sjInf, "c(1, 2) = 'good'; c(3, 4, 5) = 'poor' ; else = NA") 
                  + recode(sjWorr, "c(1, 2, 3) = 'no'; c(4, 5) = 'yes' ; else = NA")                  
@@ -230,7 +232,8 @@ res2_ww <- fitModel(imp, eq, D_cc, we=TRUE)
 res2 <- fitModel(imp, eq, D_cc, we=FALSE)
 
 # 3. Info Apo
-eq <- as.formula(ImpEntNeg_v2 ~ infoApo + eduLow + eduMed + sexFem + as.factor(agegrp17C) + 
+eq <- as.formula(ImpEntNeg_v2 ~ as.factor(recode(infoApo, "c(4, 5) = '1'; c(3) = '2'; c(1,2) = '0' ; else = NA"))
+                 + eduLow + eduMed + sexFem + as.factor(agegrp17C) + 
                  + recode(sjHealth, "c(1, 2) = 'good'; c(3, 4, 5) = 'poor' ; else = NA")
                  + recode(sjInf, "c(1, 2) = 'good'; c(3, 4, 5) = 'poor' ; else = NA") 
                  + recode(sjWorr, "c(1, 2, 3) = 'no'; c(4, 5) = 'yes' ; else = NA")                  
@@ -239,7 +242,8 @@ res3_ww <- fitModel(imp, eq, D_cc, we=TRUE)
 res3 <- fitModel(imp, eq, D_cc, we=FALSE)
 
 # 4. Info infoOef
-eq <- as.formula(ImpEntNeg_v2 ~ infoOef + eduLow + eduMed + sexFem + as.factor(agegrp17C) + 
+eq <- as.formula(ImpEntNeg_v2 ~ as.factor(recode(infoOef, "c(4, 5) = '1'; c(3) = '2'; c(1,2) = '0' ; else = NA"))
+                 + eduLow + eduMed + sexFem + as.factor(agegrp17C) + 
                  + recode(sjHealth, "c(1, 2) = 'good'; c(3, 4, 5) = 'poor' ; else = NA")
                  + recode(sjInf, "c(1, 2) = 'good'; c(3, 4, 5) = 'poor' ; else = NA") 
                  + recode(sjWorr, "c(1, 2, 3) = 'no'; c(4, 5) = 'yes' ; else = NA")                  
@@ -248,7 +252,8 @@ res4_ww <- fitModel(imp, eq, D_cc, we=TRUE)
 res4 <- fitModel(imp, eq, D_cc, we=FALSE)
 
 # 5. Info infoNews
-eq <- as.formula(ImpEntNeg_v2 ~ infoNews + eduLow + eduMed + sexFem + as.factor(agegrp17C) + 
+eq <- as.formula(ImpEntNeg_v2 ~ as.factor(recode(infoNews, "c(4, 5) = '1'; c(3) = '2'; c(1,2) = '0' ; else = NA"))
+                 + eduLow + eduMed + sexFem + as.factor(agegrp17C) + 
                  + recode(sjHealth, "c(1, 2) = 'good'; c(3, 4, 5) = 'poor' ; else = NA")
                  + recode(sjInf, "c(1, 2) = 'good'; c(3, 4, 5) = 'poor' ; else = NA") 
                  + recode(sjWorr, "c(1, 2, 3) = 'no'; c(4, 5) = 'yes' ; else = NA")                  
@@ -257,7 +262,8 @@ res5_ww <- fitModel(imp, eq, D_cc, we=TRUE)
 res5 <- fitModel(imp, eq, D_cc, we=FALSE)
 
 # 6. Info infoSozM
-eq <- as.formula(ImpEntNeg_v2 ~ infoSozM + eduLow + eduMed + sexFem + as.factor(agegrp17C) + 
+eq <- as.formula(ImpEntNeg_v2 ~ as.factor(recode(infoSozM, "c(4, 5) = '1'; c(3) = '2'; c(1,2) = '0' ; else = NA"))
+                 + eduLow + eduMed + sexFem + as.factor(agegrp17C) + 
                  + recode(sjHealth, "c(1, 2) = 'good'; c(3, 4, 5) = 'poor' ; else = NA")
                  + recode(sjInf, "c(1, 2) = 'good'; c(3, 4, 5) = 'poor' ; else = NA") 
                  + recode(sjWorr, "c(1, 2, 3) = 'no'; c(4, 5) = 'yes' ; else = NA")                  
@@ -266,7 +272,8 @@ res6_ww <- fitModel(imp, eq, D_cc, we=TRUE)
 res6 <- fitModel(imp, eq, D_cc, we=FALSE)
 
 # 7. Info infoAdm
-eq <- as.formula(ImpEntNeg_v2 ~ infoAdm + eduLow + eduMed + sexFem + as.factor(agegrp17C) + 
+eq <- as.formula(ImpEntNeg_v2 ~ as.factor(recode(infoAdm, "c(4, 5) = '1'; c(3) = '2'; c(1,2) = '0' ; else = NA"))
+                 + eduLow + eduMed + sexFem + as.factor(agegrp17C) + 
                  + recode(sjHealth, "c(1, 2) = 'good'; c(3, 4, 5) = 'poor' ; else = NA")
                  + recode(sjInf, "c(1, 2) = 'good'; c(3, 4, 5) = 'poor' ; else = NA") 
                  + recode(sjWorr, "c(1, 2, 3) = 'no'; c(4, 5) = 'yes' ; else = NA")                  
@@ -275,7 +282,8 @@ res7_ww <- fitModel(imp, eq, D_cc, we=TRUE)
 res7 <- fitModel(imp, eq, D_cc, we=FALSE)
 
 # 8. Info infoKK
-eq <- as.formula(ImpEntNeg_v2 ~ infoKK + eduLow + eduMed + sexFem + as.factor(agegrp17C) + 
+eq <- as.formula(ImpEntNeg_v2 ~ as.factor(recode(infoKK, "c(4, 5) = '1'; c(3) = '2'; c(1,2) = '0' ; else = NA"))
+                 + eduLow + eduMed + sexFem + as.factor(agegrp17C) + 
                  + recode(sjHealth, "c(1, 2) = 'good'; c(3, 4, 5) = 'poor' ; else = NA")
                  + recode(sjInf, "c(1, 2) = 'good'; c(3, 4, 5) = 'poor' ; else = NA") 
                  + recode(sjWorr, "c(1, 2, 3) = 'no'; c(4, 5) = 'yes' ; else = NA")                  
@@ -284,7 +292,8 @@ res8_ww <- fitModel(imp, eq, D_cc, we=TRUE)
 res8 <- fitModel(imp, eq, D_cc, we=FALSE)
 
 # 9. Info infoGP
-eq <- as.formula(ImpEntNeg_v2 ~ infoGP + eduLow + eduMed + sexFem + as.factor(agegrp17C) + 
+eq <- as.formula(ImpEntNeg_v2 ~ as.factor(recode(infoGP, "c(4, 5) = '1'; c(3) = '2'; c(1,2) = '0' ; else = NA"))
+                 + eduLow + eduMed + sexFem + as.factor(agegrp17C) + 
                  + recode(sjHealth, "c(1, 2) = 'good'; c(3, 4, 5) = 'poor' ; else = NA")
                  + recode(sjInf, "c(1, 2) = 'good'; c(3, 4, 5) = 'poor' ; else = NA") 
                  + recode(sjWorr, "c(1, 2, 3) = 'no'; c(4, 5) = 'yes' ; else = NA")                  
@@ -293,7 +302,8 @@ res9_ww <- fitModel(imp, eq, D_cc, we=TRUE)
 res9 <- fitModel(imp, eq, D_cc, we=FALSE)
 
 # Plot it
-vars <- c("info channel", "edu low vs. high", "edu med vs. high", "female", 
+vars <- c("info channel used vs. not used", "info channel used in parts vs. not used",
+          "edu low vs. high", "edu med vs. high", "female", 
           "35-49 vs. 18-34", "50-64 vs. 18-34", "65+ vs. 18-34",
           "poor subj. health vs. good", "poor subj. inform vs. good", "worried about Corona vs. no", "2022 vs. 2021")
 resA <- rbind.data.frame(res1[-1,], res1_ww[-1,])
@@ -351,41 +361,65 @@ zp <- zp + ggtitle("Negative Vaccination Decision")
 zp <- zp + coord_flip()
 zp
 
-# unweighted
-resUW <- res[res$Type %in% "unweighted",]
-zp <- ggplot(resUW,aes()) 
-zp <- zp + geom_pointrange(aes(x = Variables, y = exp(Estimate), ymin = exp(CI_low), ymax = exp(CI_up)),
-                           lwd = 0.1, position = position_dodge(width = 1/2)) 
-zp <- zp + facet_grid(cols=vars(Category)) 
-zp <- zp + geom_hline(yintercept=1, color = "grey10")
-zp <- zp + xlab("") + ylab("Odd-Ratio") 
-zp <- zp + ggtitle("Negative Vaccination Decision") 
-zp <- zp + coord_flip()
-zp
+# # unweighted
+# resUW <- res[res$Type %in% "unweighted",]
+# zp <- ggplot(resUW,aes()) 
+# zp <- zp + geom_pointrange(aes(x = Variables, y = exp(Estimate), ymin = exp(CI_low), ymax = exp(CI_up)),
+#                            lwd = 0.1, position = position_dodge(width = 1/2)) 
+# zp <- zp + facet_grid(cols=vars(Category)) 
+# zp <- zp + geom_hline(yintercept=1, color = "grey10")
+# zp <- zp + xlab("") + ylab("Odd-Ratio") 
+# zp <- zp + ggtitle("Negative Vaccination Decision") 
+# zp <- zp + coord_flip()
+# zp
+
+# # weigthed and unweighted
+# resR <- res[res$Variables %in% c("info channel used"),]
+# zp <- ggplot(resR,aes(colour=Type)) 
+# zp <- zp + geom_pointrange(aes(x = Category, y = exp(Estimate), ymin = exp(CI_low), ymax = exp(CI_up)),
+#                            lwd = 0.7, position = position_dodge(width = 1/2)) 
+# zp <- zp + geom_hline(yintercept=1, color = "grey10")
+# zp <- zp + xlab("") + ylab("Odd-Ratio") 
+# zp <- zp + ggtitle("Negative Vaccination Decision (under controls)") 
+# zp <- zp + coord_flip()
+# zp
 
 # weigthed and unweighted
-resR <- res[res$Variables %in% "info channel",]
-zp <- ggplot(resR,aes(colour=Type)) 
-zp <- zp + geom_pointrange(aes(x = Category, y = exp(Estimate), ymin = exp(CI_low), ymax = exp(CI_up)),
+resR <- res[res$Variables %in% c("info channel used vs. not used", "info channel used in parts vs. not used"),]
+zp <- ggplot(resR,aes(colour=Type, )) 
+zp <- zp + geom_pointrange(aes(x = Variables, y = exp(Estimate), ymin = exp(CI_low), ymax = exp(CI_up)),
                            lwd = 0.7, position = position_dodge(width = 1/2)) 
 zp <- zp + geom_hline(yintercept=1, color = "grey10")
 zp <- zp + xlab("") + ylab("Odd-Ratio") 
+zp <- zp + facet_grid(cols=vars(Category)) + scale_color_manual(values=c("darkred", "darkblue"))
 zp <- zp + ggtitle("Negative Vaccination Decision (under controls)") 
 zp <- zp + coord_flip()
 zp
 
-# unweighted
-resR <- resUW[resUW$Variables %in% "info channel",]
-zp <- ggplot(resR) 
-zp <- zp + geom_pointrange(aes(x = Category, y = exp(Estimate), ymin = exp(CI_low), ymax = exp(CI_up)),
-                           lwd = 0.7, position = position_dodge(width = 1/2)) 
-zp <- zp + geom_hline(yintercept=1, color = "grey10")
-zp <- zp + xlab("") + ylab("Odd-Ratio") 
-zp <- zp + ggtitle("Negative Vaccination Decision (under controls)") 
-zp <- zp + coord_flip()
-zp
+# # unweighted
+# resR <- resUW[resUW$Variables %in% "info channel used",]
+# zp <- ggplot(resR) 
+# zp <- zp + geom_pointrange(aes(x = Category, y = exp(Estimate), ymin = exp(CI_low), ymax = exp(CI_up)),
+#                            lwd = 0.7, position = position_dodge(width = 1/2)) 
+# zp <- zp + geom_hline(yintercept=1, color = "grey10")
+# zp <- zp + xlab("") + ylab("Odd-Ratio") 
+# zp <- zp + ggtitle("Negative Vaccination Decision (under controls)") 
+# zp <- zp + coord_flip()
+# zp
 
-setwd("C:\\Users\\Freddie\\Documents\\RKI-Studie\\Paper\\Informationen")
-write.csv2(res, "regression_vaccNegDec_allChannels_completeModels_weightedUnweighted.txt", row.names = FALSE)
+# setwd("C:\\Users\\Freddie\\Documents\\RKI-Studie\\Paper\\Informationen")
+# write.csv2(res, "regression_vaccNegDec_allChannels_completeModels_weightedUnweighted.txt", row.names = FALSE)
 
+resS <- res
+colnames(resS)[1] <- "Odd Ratio"
+resS[,1] <- exp(res[,1])
+resS[,3] <- exp(res[,3])
+resS[,4] <- exp(res[,4])
+resS[,1] <- round(resS[,1],3)
+resS[,2] <- round(resS[,2],3)
+resS[,3] <- round(resS[,3],3)
+resS[,4] <- round(resS[,4],3)
+head(resS)
+
+write.csv2(resS, "regression_vaccNegDec_allChannels_completeModels_weightedUnweighted_v2.txt", row.names = FALSE)
 
