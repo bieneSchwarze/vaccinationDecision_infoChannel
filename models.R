@@ -23,16 +23,16 @@ fitModel <- function(imp, eq, D_cc, we=TRUE){
   }
   betas <- apply(matrBeta, 1, mean)
   var_within <- apply(matrSE^2, 1, mean)
-  var_between <- apply((matrSE-var_within)^2,1,mean)/(imp$m-1)
-  var_total <- (1+(1/imp$m))*var_between + var_within   
-  wald_pooled <- betas^2/var_total
+  var_between <- apply((matrBeta-betas)^2,1,sum)/(imp$m-1)
+  var_total <- var_within + var_between + var_between/imp$m  
+  #wald_pooled <- betas^2/sqrt(var_total)
   lambda <- (var_between + var_between/imp$m)/var_total #  fraction of missing information
   df_old <- (imp$m-1)/lambda^2
   df_obs <- ((nrow(D_cc)-nbetas) + 1)/((nrow(D_cc)-nbetas) + 3) * (nrow(D_cc)-nbetas)*(1-lambda)
   df_adj <- df_old*df_obs/(df_old + df_obs)
   alpha <- 0.05
   cis <- cbind(betas-qt(1-alpha/2, df=df_adj)*sqrt(var_total),betas+qt(1-alpha/2, df=df_adj)*sqrt(var_total)) # 95% CI
-  pvalue <- pt(-abs(wald_pooled),df=df_adj)             
+  pvalue <- 1-pf(betas^2/var_total,df1=1, df2=df_adj)    
   res <- cbind(betas, pvalue, cis)
   rownames(res) <- rownames(mod_i_cl)
   colnames(res) <- c("Estimate","Pr(>|t|)", "CI_low", "CI_up")
