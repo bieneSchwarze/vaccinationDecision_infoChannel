@@ -31,6 +31,11 @@ library(ggplot2)
 setwd("C:\\Users\\Freddie\\Documents\\RKI-Studie\\Welle_2\\DATA\\CoMobu2_v5_15Feb2023\\v5_15Feb2023")
 DAT <- read_dta("CoMobu2_v5.dta")
 
+BRUT <- read_dta("C:\\Users\\Freddie\\Documents\\RKI-Studie\\Welle_2\\DATA\\soep-core-2021-soeprki2-pbrutto.dta")
+valid <- BRUT[BRUT$frabo_gesamt %in% 1, "pid"]
+
+DAT <- DAT[as.numeric(DAT$pid) %in% as.numeric(unlist(valid)),]
+
 # Ab 18J
 table(DAT$agegrp17C, exclude=NULL) # lowest group <18y
 DAT <- DAT[DAT$age > 17,] # N=10448 with age higher than 17y
@@ -84,12 +89,12 @@ DAT$infoGP <- ifelse(DAT$prki2iueb10 %in% -4, NA, DAT$prki2iueb10)
 # Mind einmal geimpft
 table(DAT$pcovimpf_n2, exclude=NULL)
 DAT$vacc1 <- ifelse(is.na(DAT$pcovimpf_n2) | DAT$pcovimpf_n2 < 0, NA, ifelse(DAT$pcovimpf_n2 %in% 1, 1, 0))
-table(DAT$vacc1, exclude=NULL) # n=169 NA
+table(DAT$vacc1, exclude=NULL) # n=10 NA
 
 # Ungeimpft
 table(DAT$pcovimpf_n2, exclude=NULL)
 DAT$unvacc <- ifelse(is.na(DAT$vacc1), NA, ifelse(DAT$vacc1 %in% 1, 0, 1))
-table(DAT$unvacc, exclude=NULL) # n=169 NA
+table(DAT$unvacc, exclude=NULL) # n=10 NA
 
 # Variable *Grundimmunisierung* zum Zeitpunkt der Erhebung
 # 2x geimpft || 1x geimpft und genesen
@@ -183,8 +188,8 @@ D <- DAT[,nam]
 # ------------------------------------------------------------------------------
 # Study missingness pattern
 missP <- md.pattern(D, plot=F)
-round(missP[nrow(missP),]/nrow(D)*100,2) # 3.68% miss on edu
-table(complete.cases(D))/nrow(D) # 87% complete cases, loose 13% due to NA
+round(missP[nrow(missP),]/nrow(D)*100,2) # 4.05% miss on infoApo & 3.69 on edu
+table(complete.cases(D))/nrow(D) # 86% complete cases, loose 14% due to NA
 
 # Plot missingness pattern
 gg_miss_upset(D)
@@ -426,5 +431,5 @@ resS[,3] <- round(resS[,3],3)
 resS[,4] <- round(resS[,4],3)
 head(resS)
 
-write.csv2(resS, "regression_unvacc_allChannels_completeModels_weightedUnweighted.txt", row.names = FALSE)
+write.csv2(resS, "regression_unvacc_allChannels_completeModels_weightedUnweighted_v2.txt", row.names = FALSE)
 
