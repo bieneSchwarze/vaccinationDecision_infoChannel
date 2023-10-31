@@ -6,7 +6,7 @@
 ##
 ## Sep. 2022
 ## SZinn
-## joint work with Susanne Jordan & Sarah Jane Böttger (RKI)
+## joint work with Susanne Jordan & Sarah Jane BÃ¶ttger (RKI)
 ##
 ################################################################################
 ################################################################################
@@ -62,7 +62,7 @@ DAT <- DAT[order(DAT$id, DAT$idh),]
 # Wichtigkeit Informationsquelle 
 table(DAT$prki2iueb01, exclude=NULL) # Familie / Freunde
 DAT$infoFam <- ifelse(DAT$prki2iueb01 %in% -4, NA, DAT$prki2iueb01)
-table(DAT$prki2iueb02, exclude=NULL) # Ärzte
+table(DAT$prki2iueb02, exclude=NULL) # Ã„rzte
 DAT$infoDoc <- ifelse(DAT$prki2iueb02 %in% -4, NA, DAT$prki2iueb02)
 table(DAT$prki2iueb03, exclude=NULL) # Apotheke
 DAT$infoApo <- ifelse(DAT$prki2iueb03 %in% -4, NA, DAT$prki2iueb03)
@@ -79,7 +79,7 @@ DAT$infoKK <- ifelse(DAT$prki2iueb09 %in% -4, NA, DAT$prki2iueb09)
 table(DAT$prki2iueb10, exclude=NULL) # Gesundheitsportale
 DAT$infoGP <- ifelse(DAT$prki2iueb10 %in% -4, NA, DAT$prki2iueb10)
 
-# # Nehme Datenzeilen heraus, für die keine Info bzgl. Infokanal
+# # Nehme Datenzeilen heraus, fÃ¼r die keine Info bzgl. Infokanal
 # condInfoNA <- !is.na(DAT$infoFam) | !is.na(DAT$infoDoc) | !is.na(DAT$infoApo) | !is.na(DAT$infoOef) |
 #  !is.na(DAT$infoNews) | !is.na(DAT$infoSozM) | !is.na(DAT$infoAdm) |
 #  !is.na(DAT$infoKK) | !is.na(DAT$infoGP)
@@ -226,7 +226,7 @@ eq <- as.formula(unvacc ~ as.factor(recode(infoFam, "c(4, 5) = '1'; c(3) = '2'; 
                    + eduLow + eduMed + sexFem + as.factor(agegrp17C) + 
                    + recode(sjHealth, "c(1, 2) = 'good'; c(3, 4, 5) = 'poor' ; else = NA")
                    + recode(sjInf, "c(1, 2) = 'good'; c(3, 4, 5) = 'poor' ; else = NA") 
-                   + recode(sjWorr, "c(1, 2, 3) = 'no'; c(4, 5) = 'yes' ; else = NA")                  
+                   + recode(sjWorr, "c(1, 2, 3) = '1'; c(4, 5) = '0' ; else = NA")        # reference category: has worries often or very often                   
                    + as.factor(datj_n2))
 res1_ww <- fitModel(imp, eq, D_cc, we=TRUE)
 res1 <- fitModel(imp, eq, D_cc, we=FALSE)
@@ -236,7 +236,7 @@ eq <- as.formula(unvacc ~ as.factor(recode(infoDoc, "c(4, 5) = '1'; c(3) = '2'; 
                  + eduLow + eduMed + sexFem + as.factor(agegrp17C) + 
                  + recode(sjHealth, "c(1, 2) = 'good'; c(3, 4, 5) = 'poor' ; else = NA")
                  + recode(sjInf, "c(1, 2) = 'good'; c(3, 4, 5) = 'poor' ; else = NA") 
-                 + recode(sjWorr, "c(1, 2, 3) = 'no'; c(4, 5) = 'yes' ; else = NA")                  
+                 + recode(sjWorr, "c(1, 2, 3) = '1'; c(4, 5) = '0' ; else = NA")        # reference category: has worries often or very often                      
                  + as.factor(datj_n2))
 res2_ww <- fitModel(imp, eq, D_cc, we=TRUE)
 res2 <- fitModel(imp, eq, D_cc, we=FALSE)
@@ -246,7 +246,7 @@ eq <- as.formula(unvacc ~ as.factor(recode(infoApo, "c(4, 5) = '1'; c(3) = '2'; 
                  + eduLow + eduMed + sexFem + as.factor(agegrp17C) + 
                  + recode(sjHealth, "c(1, 2) = 'good'; c(3, 4, 5) = 'poor' ; else = NA")
                  + recode(sjInf, "c(1, 2) = 'good'; c(3, 4, 5) = 'poor' ; else = NA") 
-                 + recode(sjWorr, "c(1, 2, 3) = 'no'; c(4, 5) = 'yes' ; else = NA")                  
+                 + recode(sjWorr, "c(1, 2, 3) = '1'; c(4, 5) = '0' ; else = NA")        # reference category: has worries often or very often                      
                  + as.factor(datj_n2))
 res3_ww <- fitModel(imp, eq, D_cc, we=TRUE)
 res3 <- fitModel(imp, eq, D_cc, we=FALSE)
@@ -256,7 +256,7 @@ eq <- as.formula(unvacc ~ as.factor(recode(infoOef, "c(4, 5) = '1'; c(3) = '2'; 
                  + eduLow + eduMed + sexFem + as.factor(agegrp17C) + 
                  + recode(sjHealth, "c(1, 2) = 'good'; c(3, 4, 5) = 'poor' ; else = NA")
                  + recode(sjInf, "c(1, 2) = 'good'; c(3, 4, 5) = 'poor' ; else = NA") 
-                 + recode(sjWorr, "c(1, 2, 3) = 'no'; c(4, 5) = 'yes' ; else = NA")                  
+                 + recode(sjWorr, "c(1, 2, 3) = '1'; c(4, 5) = '0' ; else = NA")        # reference category: has worries often or very often                       
                  + as.factor(datj_n2))
 res4_ww <- fitModel(imp, eq, D_cc, we=TRUE)
 res4 <- fitModel(imp, eq, D_cc, we=FALSE)
@@ -266,7 +266,7 @@ eq <- as.formula(unvacc ~ as.factor(recode(infoNews, "c(4, 5) = '1'; c(3) = '2';
                  + eduLow + eduMed + sexFem + as.factor(agegrp17C) + 
                  + recode(sjHealth, "c(1, 2) = 'good'; c(3, 4, 5) = 'poor' ; else = NA")
                  + recode(sjInf, "c(1, 2) = 'good'; c(3, 4, 5) = 'poor' ; else = NA") 
-                 + recode(sjWorr, "c(1, 2, 3) = 'no'; c(4, 5) = 'yes' ; else = NA")                  
+                 + recode(sjWorr, "c(1, 2, 3) = '1'; c(4, 5) = '0' ; else = NA")        # reference category: has worries often or very often                   
                  + as.factor(datj_n2))
 res5_ww <- fitModel(imp, eq, D_cc, we=TRUE)
 res5 <- fitModel(imp, eq, D_cc, we=FALSE)
@@ -276,7 +276,7 @@ eq <- as.formula(unvacc ~ as.factor(recode(infoSozM, "c(4, 5) = '1'; c(3) = '2';
                  + eduLow + eduMed + sexFem + as.factor(agegrp17C) + 
                  + recode(sjHealth, "c(1, 2) = 'good'; c(3, 4, 5) = 'poor' ; else = NA")
                  + recode(sjInf, "c(1, 2) = 'good'; c(3, 4, 5) = 'poor' ; else = NA") 
-                 + recode(sjWorr, "c(1, 2, 3) = 'no'; c(4, 5) = 'yes' ; else = NA")                  
+                 + recode(sjWorr, "c(1, 2, 3) = '1'; c(4, 5) = '0' ; else = NA")        # reference category: has worries often or very often                    
                  + as.factor(datj_n2))
 res6_ww <- fitModel(imp, eq, D_cc, we=TRUE)
 res6 <- fitModel(imp, eq, D_cc, we=FALSE)
@@ -286,7 +286,7 @@ eq <- as.formula(unvacc ~ as.factor(recode(infoAdm, "c(4, 5) = '1'; c(3) = '2'; 
                  + eduLow + eduMed + sexFem + as.factor(agegrp17C) + 
                  + recode(sjHealth, "c(1, 2) = 'good'; c(3, 4, 5) = 'poor' ; else = NA")
                  + recode(sjInf, "c(1, 2) = 'good'; c(3, 4, 5) = 'poor' ; else = NA") 
-                 + recode(sjWorr, "c(1, 2, 3) = 'no'; c(4, 5) = 'yes' ; else = NA")                  
+                 + recode(sjWorr, "c(1, 2, 3) = '1'; c(4, 5) = '0' ; else = NA")        # reference category: has worries often or very often                    
                  + as.factor(datj_n2))
 res7_ww <- fitModel(imp, eq, D_cc, we=TRUE)
 res7 <- fitModel(imp, eq, D_cc, we=FALSE)
@@ -296,7 +296,7 @@ eq <- as.formula(unvacc ~ as.factor(recode(infoKK, "c(4, 5) = '1'; c(3) = '2'; c
                  + eduLow + eduMed + sexFem + as.factor(agegrp17C) + 
                  + recode(sjHealth, "c(1, 2) = 'good'; c(3, 4, 5) = 'poor' ; else = NA")
                  + recode(sjInf, "c(1, 2) = 'good'; c(3, 4, 5) = 'poor' ; else = NA") 
-                 + recode(sjWorr, "c(1, 2, 3) = 'no'; c(4, 5) = 'yes' ; else = NA")                  
+                 + recode(sjWorr, "c(1, 2, 3) = '1'; c(4, 5) = '0' ; else = NA")        # reference category: has worries often or very often                       
                  + as.factor(datj_n2))
 res8_ww <- fitModel(imp, eq, D_cc, we=TRUE)
 res8 <- fitModel(imp, eq, D_cc, we=FALSE)
@@ -306,7 +306,7 @@ eq <- as.formula(unvacc ~ as.factor(recode(infoGP, "c(4, 5) = '1'; c(3) = '2'; c
                  + eduLow + eduMed + sexFem + as.factor(agegrp17C) + 
                  + recode(sjHealth, "c(1, 2) = 'good'; c(3, 4, 5) = 'poor' ; else = NA")
                  + recode(sjInf, "c(1, 2) = 'good'; c(3, 4, 5) = 'poor' ; else = NA") 
-                 + recode(sjWorr, "c(1, 2, 3) = 'no'; c(4, 5) = 'yes' ; else = NA")                  
+                 + recode(sjWorr, "c(1, 2, 3) = '1'; c(4, 5) = '0' ; else = NA")        # reference category: has worries often or very often                    
                  + as.factor(datj_n2))
 res9_ww <- fitModel(imp, eq, D_cc, we=TRUE)
 res9 <- fitModel(imp, eq, D_cc, we=FALSE)
@@ -315,7 +315,7 @@ res9 <- fitModel(imp, eq, D_cc, we=FALSE)
 vars <- c("info channel used vs. not used", "info channel used in parts vs. not used",
           "edu low vs. high", "edu med vs. high", "female", 
           "35-49 vs. 18-34", "50-64 vs. 18-34", "65+ vs. 18-34",
-          "poor subj. health vs. good", "poor subj. inform vs. good", "worried about Corona vs. no", "2022 vs. 2021")
+          "poor subj. health vs. good", "poor subj. inform vs. good", "not worried about Corona vs. often", "2022 vs. 2021")
 resA <- rbind.data.frame(res1[-1,], res1_ww[-1,])
 resA$Type <- as.factor(rep(c("unweighted","weighted"), each=nrow(res1)-1))
 resA$Category <- "Family/Friends"
@@ -431,5 +431,5 @@ resS[,3] <- round(resS[,3],3)
 resS[,4] <- round(resS[,4],3)
 head(resS)
 
-write.csv2(resS, "regression_unvacc_allChannels_completeModels_weightedUnweighted_v2.txt", row.names = FALSE)
+write.csv2(resS, "regression_unvacc_allChannels_completeModels_weightedUnweighted.txt", row.names = FALSE)
 
