@@ -29,12 +29,7 @@ library(ggplot2)
 # ------------------------------------------------------------------------------
 
 setwd("...") // Here add path to SOEP Data from Scientific Use File "soep.v38.1/eu/Stata_DE/soepdata/raw" 
-DAT <- read_dta("cov.dta")
-
-BRUT <- read_dta("cov_pbrutto.dta")
-valid <- BRUT[BRUT$frabo_gesamt %in% 1, "pid"]
-
-DAT <- DAT[as.numeric(DAT$pid) %in% as.numeric(unlist(valid)),]
+DAT <- read_dta("CoMobu2_v4.dta")
 
 # Ab 18J
 table(DAT$agegrp17C, exclude=NULL) # lowest group <18y
