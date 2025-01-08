@@ -28,7 +28,7 @@ library(ggplot2)
 # ------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
 
-setwd("...") // Here add path to SOEP Data from Scientific Use File "soep.v38.1/eu/Stata_DE/soepdata/raw" 
+setwd("...") // Here add path to SOEP Data from Scientific Use File
 DAT <- read_dta("CoMobu2_v4.dta")
 
 # Ab 18J
