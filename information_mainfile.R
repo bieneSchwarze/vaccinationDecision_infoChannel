@@ -28,10 +28,10 @@ library(ggplot2)
 # ------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
 
-setwd("C:\\Users\\Freddie\\Documents\\RKI-Studie\\Welle_2\\DATA\\CoMobu2_v5_15Feb2023\\v5_15Feb2023")
-DAT <- read_dta("CoMobu2_v5.dta")
+setwd("...") // Here add path to SOEP Data from Scientific Use File "soep.v38.1/eu/Stata_DE/soepdata/raw" 
+DAT <- read_dta("cov.dta")
 
-BRUT <- read_dta("C:\\Users\\Freddie\\Documents\\RKI-Studie\\Welle_2\\DATA\\soep-core-2021-soeprki2-pbrutto.dta")
+BRUT <- read_dta("cov_pbrutto.dta")
 valid <- BRUT[BRUT$frabo_gesamt %in% 1, "pid"]
 
 DAT <- DAT[as.numeric(DAT$pid) %in% as.numeric(unlist(valid)),]
