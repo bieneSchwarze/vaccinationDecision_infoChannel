@@ -14,5 +14,6 @@ Before conducting model estimation, we impute missing values by mice (package ve
 Estimation results are pooled by Rubin's combining rules. 
 The missingness pattern in the used data set and the variables used for imputation are documented in the supplement file *SupplementMI.pdf*.
 For fitting the survey-weighted logit regression models, we use Lumley's survey package (version 4.1.1) in R.
+The results of a sensitivity check where the explanatory variable subjective assessment of being informed about COVID-19 has been coded differently than in the main analysis (three instead of two categories) are given in the file *sensitivityCheck_categoriesInformedness.xlsx*.
 
 
