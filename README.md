@@ -12,6 +12,7 @@ The main file is *information_mainfile.R*. From within this file a function *fit
 The respective source code is included in the file *models.R*.
 Before conducting model estimation, we impute missing values by mice (package version 3.14.0) and CART. 
 Estimation results are pooled by Rubin's combining rules. 
+The missingness pattern in the used data set and the variables used for imputation are documented in the supplement file *SupplementMI.pdf*.
 For fitting the survey-weighted logit regression models, we use Lumley's survey package (version 4.1.1) in R.
 
 
