@@ -15,6 +15,6 @@ Estimation results are pooled by Rubin's combining rules.
 The missingness pattern in the used data set and the variables used for imputation are documented in the supplement file *SupplementMI.pdf*.
 For fitting the survey-weighted logit regression models, we use Lumley's survey package (version 4.1.1) in R.
 The results of a sensitivity check where the explanatory variable subjective assessment of being informed about COVID-19 has been coded differently than in the main analysis (three instead of two categories) are given in the file *sensitivityCheck_categoriesInformedness.xlsx*.
-To get some insight in the bivariate structure of the information channels deemed important fiugre "multivariateFreq_Channels_20082025.png" gives insights. Shown here are the numbers of respondents who rated each pair of the nine information sources as very persuasive, rather persuasive, or not  persuasive at all. In addition, it is indicated for which information sources no responses were given.
+To get some insight in the bivariate structure of the information channels deemed important figure "multivariateFreq_Channels_20082025.png" gives insights. Shown here are the numbers of respondents who rated each pair of the nine information sources as very persuasive, rather persuasive, or not  persuasive at all. In addition, it is indicated for which information sources no responses were given.
 
 
